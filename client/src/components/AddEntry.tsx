@@ -6,7 +6,7 @@ const AddEntry = () => {
 
   const addItem = () => {
     axios
-      .post("http://localhost:3001/add", { item })
+      .post("http://localhost:8000/add", { userName: item })
       .then((response) => alert(response.data.message))
       .catch((error) =>
         console.error("There was an error adding the item!", error)

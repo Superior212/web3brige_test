@@ -7,7 +7,7 @@ const UpdateEntry = () => {
 
   const updateItem = () => {
     axios
-      .put("http://localhost:3001/update", { oldItem, newItem })
+      .put("http://localhost:8000/update", { oldItem, newItem })
       .then((response) => alert(response.data.message))
       .catch((error) =>
         console.error("There was an error updating the item!", error)
