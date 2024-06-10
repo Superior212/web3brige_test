@@ -65,16 +65,23 @@ app.post("/add", async (req, res) => {
 });
 
 
-app.put("/update", (req, res) => {
+app.put("/update", async (req, res) => {
   const { oldItem, newItem } = req.body;
-  let data = getData();
-  const index = data.indexOf(oldItem);
-  if (index !== -1) {
-    data[index] = newItem;
-    saveData(data);
-    res.json({ message: "Item updated successfully" });
-  } else {
-    res.json({ message: "Item not found" });
+  try {
+
+    const updatedUser = await userModel.findOneAndUpdate(
+      { userName: oldItem },
+      { userName: newItem },
+      { new: true }
+    );
+
+    if (updatedUser) {
+      res.json({ message: "Item updated successfully", user: updatedUser });
+    } else {
+      res.status(404).json({ message: "Item not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error updating item", message: error.message });
   }
 });
 
