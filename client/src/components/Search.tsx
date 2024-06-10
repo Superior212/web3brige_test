@@ -25,10 +25,10 @@ const Search = () => {
       />
       <button
         onClick={search}
-        className="bg-purple-500 text-white p-2 rounded-lg w-full mb-2">
+        className="bg-purple-500 text-whitse p-2 rounded-lg w-full mb-2">
         Search
       </button>
-      <SearchResults results={results} />
+      {results.length > 0 && <SearchResults results={results} />}
     </div>
   );
 };

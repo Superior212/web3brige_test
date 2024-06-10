@@ -43,14 +43,16 @@ const saveData = async (userName) => {
 };
 
 
-
-app.get("/search", (req, res) => {
-  const query = req.query.q.toLowerCase();
-  // const data = getData();
-  // const results = data.filter((item) => item.toLowerCase().includes(query));
-  const data = userModel.find({ userName: query });
-  res.json(results.length ? data : "No results found");
+app.get("/search", async (req, res) => {
+  try {
+    const query = req.query.q.toLowerCase();
+    const data = await userModel.find({ userName: query });
+    res.json(data.length ? data : "No results found");
+  } catch (error) {
+    res.status(500).json({ error: "Error searching items", message: error.message });
+  }
 });
+
 
 app.post("/add", async (req, res) => {
   const newItem = req.body.userName;

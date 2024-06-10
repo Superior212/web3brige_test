@@ -1,22 +1,16 @@
-import React from "react";
+import { User } from "../Model";
 
-interface SearchResultsProps {
-  results: string[];
-}
-
-const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
+const SearchResults = ({ results }: { results: User[] }) => {
   return (
     <div>
       <h2>Search Results</h2>
-      {results.length > 0 ? (
-        <ul>
-          {results.map((result, index) => (
-            <li key={index}>{result}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No results found</p>
-      )}
+      <ul>
+        {Array.isArray(results) ? (
+          results.map((result) => <li key={result._id}>{result.userName}</li>)
+        ) : (
+          <li>No results found</li>
+        )}
+      </ul>
     </div>
   );
 };
