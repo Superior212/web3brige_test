@@ -30,9 +30,19 @@ const getData = () => {
   return JSON.parse(data);
 };
 
-const saveData = (data) => {
-  fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
+const saveData = async (userName) => {
+  try {
+    const user = new userModel({ userName });
+    await user.save();
+    console.log('Data saved successfully');
+    return user;
+  } catch (error) {
+    console.error('Error saving data:', error);
+    throw error;
+  }
 };
+
+
 
 app.get("/search", (req, res) => {
   const query = req.query.q.toLowerCase();
@@ -42,12 +52,16 @@ app.get("/search", (req, res) => {
   res.json(results.length ? data : "No results found");
 });
 
-app.post("/add", (req, res) => {
-  const newItem = req.body.item;
-  userModel.save({ userName: newItem })
-  console.log(newItem);
-  res.json({ message: "Item added successfully" });
+app.post("/add", async (req, res) => {
+  const newItem = req.body.userName;
+  try {
+    const savedUser = await saveData(newItem);
+    res.json({ message: "Item added successfully", user: savedUser });
+  } catch (error) {
+    res.status(500).json({ error: "Error adding item", message: error.message });
+  }
 });
+
 
 app.put("/update", (req, res) => {
   const { oldItem, newItem } = req.body;

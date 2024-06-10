@@ -8,7 +8,7 @@ const Search = () => {
 
   const search = () => {
     axios
-      .get(`http://localhost:3001/search?q=${query}`)
+      .get(`http://localhost:8000/search?q=${query}`)
       .then((response) => setResults(response.data))
       .catch((error) => console.error("There was an error searching!", error));
   };
