@@ -1,33 +1,48 @@
 import axios from "axios";
 import { useState } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { useToast } from "./ui/use-toast";
 
 const AddEntry = () => {
   const [item, setItem] = useState("");
+  const { toast } = useToast();
 
   const addItem = () => {
     axios
       .post("https://web3brige-test-backend.vercel.app/add", { userName: item })
-      .then((response) => alert(response.data.message))
-      .catch((error) =>
-        console.error("There was an error adding the item!", error)
-      );
+      .then((response) => {
+        toast({
+          title: "Success",
+          description: response.data.message,
+          variant: "success" as "default" | "destructive" | null | undefined,
+        });
+        setItem("");
+      })
+      .catch(() => {
+        toast({
+          title: "Error",
+          description: "There was an error adding the item!",
+          variant: "error" as "default" | "destructive" | null | undefined,
+        });
+      });
   };
 
   return (
-    <div className="p-4 border rounded-lg shadow-md mb-4">
-      <h2 className="text-2xl mb-2">Add Entry</h2>
-      <input
-        type="text"
-        value={item}
-        onChange={(e) => setItem(e.target.value)}
-        placeholder="Add item"
-        className="border p-2 rounded-lg w-full mb-2"
-      />
-      <button
-        onClick={addItem}
-        className="bg-blue-500 text-white p-2 rounded-lg w-full">
-        Add
-      </button>
+    <div className="bg-background rounded-lg shadow-lg p-4">
+      <div>
+        <h3 className="text-lg font-bold mb-4">Add New Entry</h3>
+        <Input
+          type="text"
+          placeholder="Name"
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
+          className="w-full mb-4"
+        />
+        <Button className="bg-gray-700 text-white w-full" onClick={addItem}>
+          Add Entry
+        </Button>
+      </div>
     </div>
   );
 };

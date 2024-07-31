@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import SearchResults from "./SearchResults";
+import { Input } from "./ui/input";
 
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -14,18 +15,18 @@ const Search = () => {
   };
 
   return (
-    <div className="p-4 border rounded-lg shadow-md mb-4">
-      <h2 className="text-2xl mb-2">Search</h2>
-      <input
+    <div className="md:col-span-1 bg-background rounded-lg shadow-lg p-4">
+      <h2 className="text-lg font-bold mb-4">Search</h2>
+      <Input
         type="text"
+        placeholder="Search..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search"
-        className="border p-2 rounded-lg w-full mb-2"
+        className="w-full mb-4"
       />
       <button
         onClick={search}
-        className="bg-purple-500 text-whitse p-2 rounded-lg w-full mb-2">
+        className="bg-purple-500 text-white p-2 rounded-lg w-full mb-2">
         Search
       </button>
       {results.length > 0 && <SearchResults results={results} />}
