@@ -6,7 +6,7 @@ const AddEntry = () => {
 
   const addItem = () => {
     axios
-      .post("http://localhost:8000/add", { userName: item })
+      .post("https://web3brige-test-backend.vercel.app/add", { userName: item })
       .then((response) => alert(response.data.message))
       .catch((error) =>
         console.error("There was an error adding the item!", error)

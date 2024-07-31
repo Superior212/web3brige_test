@@ -8,7 +8,7 @@ const Search = () => {
 
   const search = () => {
     axios
-      .get(`http://localhost:8000/search?q=${query}`)
+      .get(`https://web3brige-test-backend.vercel.app/search?q=${query}`)
       .then((response) => setResults(response.data))
       .catch((error) => console.error("There was an error searching!", error));
   };
