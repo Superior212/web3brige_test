@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { toast } from "./ui/use-toast";
 
 const UpdateEntry = () => {
   const [oldItem, setOldItem] = useState("");
@@ -13,10 +14,22 @@ const UpdateEntry = () => {
         oldItem,
         newItem,
       })
-      .then((response) => alert(response.data.message))
-      .catch((error) =>
-        console.error("There was an error updating the item!", error)
-      );
+      .then((response) => {
+        toast({
+          title: "Success",
+          description: response.data.message,
+          variant: "success" as "default" | "destructive" | null | undefined,
+        });
+        setOldItem("");
+        setNewItem("");
+      })
+      .catch(() => {
+        toast({
+          title: "Error",
+          description: "There was an error adding the item!",
+          variant: "error" as "default" | "destructive" | null | undefined,
+        });
+      });
   };
 
   return (
